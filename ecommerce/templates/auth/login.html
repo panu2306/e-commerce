@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <div class="text-center">
+        <h1>{{ title }}</h1> 
+    </div>
+{% endblock head %}
+
+{% block bodyblock %}
+    <div class="container">
+        <div class="row">
+            <div class="col"> 
+                <h6>{{ content }}</h6>
+                <div class="col-sm-6 col-12">
+                    <form method='POST'>
+                        {% csrf_token %}
+                        {{ form }}
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </form>
+                </div>
+            </div> 
+        </div> 
+    </div>
+{% endblock bodyblock %}
