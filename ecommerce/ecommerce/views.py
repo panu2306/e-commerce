@@ -32,31 +32,13 @@ def contact_page(request):
     return render(request, 'contact_page.html', context=context)
 
 def login_page(request):
-    # login_form = forms.LoginForm(request.POST or None)
-    # context = {
-    #     'form': login_form
-    #     }
-    # print("User logged in")
-    # if(login_form.is_valid()):
-    #     print(login_form.cleaned_data)
-    #     username = login_form.cleaned_data.get('username')
-    #     password = login_form.cleaned_data.get('password')
-    #     user = authenticate(request, username=username, password=password)
-    #     print(user)
-
-    #     if(user is not None):
-    #         login(request, user)
-
-    #         return redirect('/login')
-    #     else:
-    #         print('ERROR')
-    # return render(request, 'auth/login.html', context=context)
     if(request.method == 'POST'):
-        form = forms.LoginForm()
+        form = forms.LoginForm(request.POST)
         if(form.is_valid()):
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(request, username=username, password=password)
+            print(user)
             if(user is not None):
                 login(request, user)
                 return redirect('/login')
