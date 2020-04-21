@@ -7,7 +7,8 @@ from . import forms
 def home_page(request):
     context = {
         'title': 'Home Page',
-        'content':'Hello, Welcome to the home page'
+        'content':'Hello, Welcome to the home page',
+        'premium': 'Yeah! This is premium.'
     }
     return render(request, 'home_page.html', context=context)
 
@@ -38,7 +39,6 @@ def login_page(request):
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(request, username=username, password=password)
-            print(user)
             if(user is not None):
                 login(request, user)
                 return redirect('/login')
