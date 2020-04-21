@@ -1,4 +1,4 @@
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, get_user_model
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
@@ -41,7 +41,7 @@ def login_page(request):
             user = authenticate(request, username=username, password=password)
             if(user is not None):
                 login(request, user)
-                return redirect('/login')
+                return redirect('/')
             else:
                 print('Error')
         else:
@@ -49,3 +49,28 @@ def login_page(request):
     else:
         form = forms.LoginForm()
     return render(request, 'auth/login.html', context={'form':form})
+
+User = get_user_model()
+
+def register_page(request):
+    if(request.method == 'POST'):
+        form = forms.RegisterForm(request.POST)
+        if(form.is_valid()):
+            print(form.cleaned_data)
+            username = form.cleaned_data.get('username')
+            email = form.cleaned_data.get('email')
+            first_name = form.cleaned_data.get('firstname')
+            last_name = form.cleaned_data.get('lastname')
+            password = form.cleaned_data.get('password')
+            extra_fields = {}
+            extra_fields['first_name'] = first_name
+            extra_fields['last_name'] = last_name
+            new_user = User.objects.create_user(username, email, password, **extra_fields)
+            print(new_user)
+            return redirect('/')
+        else:
+            print("Form has errors")
+    else:
+        form = forms.RegisterForm()
+    
+    return render(request, 'auth/register.html', context={'title': 'Registration Page','content': 'Hello, Welcome to the Registration page', 'form': form })
