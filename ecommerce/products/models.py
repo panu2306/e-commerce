@@ -8,6 +8,27 @@ class ProductManager(models.Manager):
             return qs.first()
         else:
             return None
+    
+    def get_product_list(self):
+        qs = self.get_queryset().all()
+        if(qs.count() == 0):
+            return None
+        else:
+            return qs
+
+    def get_by_featured(self, id, featured):
+        qs = self.get_queryset().filter(id=id, featured=featured)
+        if(qs.count() == 1):
+            return qs.first()
+        else:
+            return None
+    
+    def get_featured_list(self):
+        qs = self.get_queryset().filter(featured=True)
+        if(qs.count() == 0):
+            return None
+        else:
+            return qs
 
 class Product(models.Model):
     title = models.CharField(max_length=256)
